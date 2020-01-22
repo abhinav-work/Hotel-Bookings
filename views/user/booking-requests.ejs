@@ -1,0 +1,47 @@
+<%- include('../layouts/head.ejs') %>
+<link rel="stylesheet" href="/style/product.css">
+<%- include('../layouts/nav.ejs') %>
+<main>
+  <% if(bookings.length > 0) { %>
+  <% for (booking of bookings) { %>
+  <div class="grid-book">
+    <article class="card_product_item">
+     
+        <header class="card_header">
+          <h1 class="product_title"> <%= booking.hotel.name %> </h1>
+        </header>
+        <br>
+         <% if(booking.requestPending) { %>
+         <div class="card_product_content">
+           <p class="product_status" style="background-color: rgb(226, 226, 12);"> PENDING </p>
+         </div>
+         <% } else { %>
+                <% if(booking.requestAccepted) { %>
+                       <div class="card_product_content">
+                         <p class="product_status" style="background-color: green;"> ACCEPTED </p>
+                       </div>
+                <% } else { %>
+                        <div class="card_product_content">
+                          <p class="product_status" style="background-color: rgb(189, 23, 23);"> REJECTED </p>
+                        </div>
+                <% } %>
+          <% } %>
+          <div class="card_product_content">
+            <p class="product_description"> Last Update On:- <%= booking.updated_at.toString().substr(booking.updated_at.toString().indexOf(' ')+1).split(' ', 3).join(" ") %>
+              <p class="product_description"> At:- <%= booking.updated_at.toString().substr(booking.updated_at.toString().indexOf(' ')+12).split(':', 3).join(":").slice(0, 10) %>
+            </p>
+          </div>
+        <input type="hidden" name="_csrf" value="<%= csrfToken%>">
+
+        
+    </article>
+  </div>
+
+
+  <% } %>
+  <%- include('../layouts/pagination.ejs', {hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage, currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage}) %>
+  <% } else { %>
+  <h1> No Bookings yet! <h1>
+      <% } %>
+</main>
+<%- include('../layouts/foot.ejs') %>

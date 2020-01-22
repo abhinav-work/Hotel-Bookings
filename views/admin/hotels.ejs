@@ -1,0 +1,37 @@
+<%- include('../layouts/head.ejs') %>
+<link rel="stylesheet" href="/style/product.css">
+<%- include('../layouts/nav.ejs') %>
+<main>
+    <% if(hotels.length > 0) { %>
+        <% for (hotel of hotels) { %>
+            <a href="/admin/edit-hotel/<%= hotel._id %>?edit=true" style="text-decoration: none; color:black;">
+                <div class="grid">
+                    <article class="card_product_item">
+                        <header class="card_header">
+                            <h1 class="product_title"> <%= hotel.title %> </h1>
+                        </header>
+                        <br>
+                        <div class="card_product_image">
+                            <img src="<%= hotel.image_URL %>" alt="Product Image">
+                        </div>
+                        <div class="card_product_content">
+                            <p class="product_description"> <%= hotel.description %> </p>
+                        </div>
+                            <p class="product_description"> Rs. <%= hotel.price %> </p>
+                        
+            </a>            
+                        <div class="card_actions">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken%>" id="_csrf">
+                                <input type='hidden' value="<%= hotel._id %>" name="hotelID">
+                                <button class="btn" type="button" onclick="deleteHotel(this)"> Delete </button>
+                        </div>
+                    </article>
+                </div>
+        <% } %>
+            <%- include('../layouts/pagination.ejs', {hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage, currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage}) %>
+    <% } else { %>
+    <h1> No Hotels yet by you! <h1>
+            <% } %>
+</main>
+<%- include('../layouts/foot.ejs') %>
+<script type="text/javascript" src='/js/admin.js'> </script>

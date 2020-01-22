@@ -1,0 +1,38 @@
+<%- include('../layouts/head.ejs') %>
+<link rel="stylesheet" href="/style/product.css">
+<%- include('../layouts/nav.ejs') %>
+<main>
+    <% if(hotels.length > 0) { %>
+        <% for (hotel of hotels) { %>
+                <div class="grid">
+                    <article class="card_product_item">
+                        <form class="product-form" action="/bookingRequest" method="POST">
+                            <header class="card_header">
+                                <h1 class="product_title"> <%= hotel.title %> </h1>
+                            </header>
+                            <br>
+                            <div class="card_product_image">
+                                <img src="<%= hotel.image_URL %>" alt="Product Image">
+                            </div>
+                            <div class="card_product_content">
+                                <p class="product_description"> <%= hotel.description %> </p>
+                            </div>
+                             <p class="product_description"> Rs. <%= hotel.price %> </p>
+                            <input type="hidden" value="<%= hotel._id %>" name="hotelID">
+
+                            <input type="hidden" name="_csrf" value="<%= csrfToken%>">
+                                <% if(!isAdminLog) { %>
+                                     <button class="add-button" type="submit"> Book </button>
+                                <% } %>
+                        </form>
+                    </article>
+                </div>
+                   
+                   
+            <% } %>    
+                <%- include('../layouts/pagination.ejs', {hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage, currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage}) %>
+        <% } else { %>
+            <h1> No Hotels Available! <h1>    
+        <% } %>
+    </main>
+<%- include('../layouts/foot.ejs') %>

@@ -1,0 +1,43 @@
+<%- include('../layouts/head.ejs') %>
+<link rel="stylesheet" href="/style/product.css">
+<%- include('../layouts/nav.ejs') %>
+<main>
+    <% if(bookings.length > 0) { %>
+    <% for (booking of bookings) { %>
+ 
+        
+                <div class="grid-book">
+                    <article class="card_product_item">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken%>">
+                        <header class="card_header">
+                            <h1 class="product_title"> Hotel :- <%= booking.hotel.name %> </h1>
+                        </header>
+                         <header class="card_header">
+                             <h1 class="product_title"> Request By :- <%= booking.bookRequestBy.name %> </h1>
+                             <p class="product_description"> Requested On:- <%= booking.updated_at.toString().substr(booking.updated_at.toString().indexOf(' ')+1).split(' ', 3).join(" ") %>
+                             <p class="product_description"> At:- <%= booking.updated_at.toString().substr(booking.updated_at.toString().indexOf(' ')+12).split(':', 3).join(":").slice(0, 10) %>
+                            </header>
+                          <br>
+                          <h1> Action </h1>
+                          <br>
+                          <form action="/admin/acceptRequest/<%= booking._id %>" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken%>">
+                            <button type="submit" class="accept"> Accept </button>
+                        </form>
+                         <br>
+                           <form action="/admin/rejectRequest/<%= booking._id%>" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken%>">
+                                <button type="submit" class="reject"> Reject </button>
+                           </form>
+                    </article>
+                  </div>
+
+  
+
+         <% } %>
+    <%- include('../layouts/pagination.ejs', {hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage, currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage}) %>
+    <% } else { %>
+    <h1> No Booking Requests yet! <h1>
+            <% } %>
+</main>
+<%- include('../layouts/foot.ejs') %>

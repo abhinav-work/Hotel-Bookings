@@ -1,0 +1,48 @@
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-header_nav">
+            <ul class="main-header_item-list">
+               
+                    <li class="main-header_item">
+                        <a class="<%= pageTitle=='Hotels' ? 'active' : '' %>" href="/"> Blog </a>
+                    </li>
+                 <% if(isAdminLog) { %>
+                   
+                    <li class="main-header_item">
+                        <a class="<%= pageTitle=='Add Hotel' ? 'active' : '' %>" href="/admin/addhotel"> Add Room</a>
+                    </li>
+                    <li class="main-header_item">
+                        <a class="<%= pageTitle=='Admin Hotels' ? 'active' : '' %>" href="/admin/hotels"> Dashboard </a>
+                    </li>
+                    <li class="main-header_item">
+                        <a class="<%= pageTitle=='Booking Requests' ? 'active' : '' %>" href="/admin/bookingRequests"> Booking Requests </a>
+                    </li>
+
+                <% } else { %> 
+                    <% if(isAuthenticated) { %>
+                            <li class="main-header_item">
+                                <a class="<%= pageTitle=='Bookings' ? 'active' : '' %>" href="/bookingRequest"> Booking Requests </a>
+                            </li>
+                     <% } %>
+                <% } %>
+            </ul>
+            <ul class="main-header_item-list">
+                <% if(!isAuthenticated) { %>
+                    <li class="main-header_item">
+                        <a class="<%= pageTitle=='Login' ? 'active' : '' %>" href="/login"> Login</a>
+                    </li>
+                     <li class="main-header_item">
+                         <a class="<%= pageTitle=='Sign Up' ? 'active' : '' %>" href="/signup"> Sign Up </a>
+                     </li>
+                <% } else { %>
+                    <form action="/logout" method="POST">
+                         <li class="main-header_item">
+                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                             <button class='logout-button' type="submit"> Logout </button>
+                         </li>
+                    </form>
+                  <% } %>
+            </ul>
+        </nav>
+    </header>
